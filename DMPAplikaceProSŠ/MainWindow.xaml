@@ -1,0 +1,144 @@
+﻿<Window x:Class="DMPAplikaceProSŠ.Souradnice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DMPAplikaceProSŠ"
+        mc:Ignorable="d"
+        Title="Souřadný systém" Height="720" Width="1280"
+        WindowStartupLocation="CenterScreen" Icon="DMPIcon.ico" Name ="hlavniOkno" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="209*"/>
+        </Grid.ColumnDefinitions>
+        <Border Name="clipBorder" BorderThickness="3" ClipToBounds="True" Margin="428,10,10,10" Grid.Column="1">
+            <Canvas Name="souradnySystem" Background="White" Width="1600" Height="1600" VerticalAlignment="Center" HorizontalAlignment="Center" MouseWheel="souradnySystem_MouseWheel" MouseMove="souradnySystem_MouseMove" MouseLeftButtonDown="souradnySystem_MouseLeftButtonDown" MouseLeftButtonUp="souradnySystem_MouseLeftButtonUp" Margin="-390,-458,-400,-479"/>
+        </Border>
+        <ToolBarTray                                                 HorizontalAlignment="Left" Height="55" VerticalAlignment="Top" Width="176" Grid.ColumnSpan="2" DockPanel.Dock="Top" IsLocked="True" Name="toolBar">
+            <ToolBar Band="1">
+                <Button x:Name="btOpenico" ToolTip="Otevřít" Click="OpenFile">
+                    <Image Source="./Resources/Open.png"></Image>
+                </Button>
+                <Button x:Name="btSaveico" ToolTip="Uložit" Click="SaveFile">
+                    <Image Source="./Resources/Save.png"></Image>
+                </Button>
+                <Button x:Name="btSaveAsico" ToolTip="Uložit jako" Click="SaveAsFile">
+                    <Image Source="./Resources/SaveAs.png"></Image>
+                </Button>
+                <Button x:Name="btExportico" ToolTip="Exportovat" Click="ExportImage">
+                    <Image Source="./Resources/Export.png"></Image>
+                </Button>
+            </ToolBar>
+            <ToolBar Band="0">
+                <Menu>
+                    <MenuItem Header="Soubor">
+                        <MenuItem Header="Otevřít" Click="OpenFile">
+                            <MenuItem.Icon>
+                                <Image Source="./Resources/Open.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Uložit" Click="SaveFile">
+                            <MenuItem.Icon>
+                                <Image Source="./Resources/Save.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Uložit jako" Click="SaveAsFile">
+                            <MenuItem.Icon>
+                                <Image Source="./Resources/SaveAs.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Exportovat" Click="ExportImage">
+                            <MenuItem.Icon>
+                                <Image Source="./Resources/Export.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+                <Menu>
+                    <MenuItem Header="Možnosti">
+                        <MenuItem Header="Asymptoty" IsCheckable="True" IsChecked="True" Checked="asymptoty_Checked" Unchecked="asymptoty_Unchecked"/>
+                        <MenuItem Header="Řídící přímka" IsCheckable="True" IsChecked="True" Checked="ridiciPrimka_Checked" Unchecked="ridiciPrimka_Unchecked"/>
+                        <Separator/>
+                        <MenuItem Header="Barva pozadí" Click="BgColor_Changed"/>
+                    </MenuItem>
+                    <MenuItem Header="Mód">
+                        <MenuItem Header="Parametrické tvary" Name="mItemParametricke" Click="mItemParametricke_Click">
+                            <MenuItem.Icon>
+                                <RadioButton x:Name="rbPar" IsEnabled="False" IsChecked="True"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Obecné tvary" Name="mItemObecne" Click="mItemObecne_Click">
+                            <MenuItem.Icon>
+                                <RadioButton x:Name="rbObe" IsEnabled="False"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
+            </ToolBar>
+        </ToolBarTray>
+        <Button Content="Reset" HorizontalAlignment="Left" Margin="48,272,0,0" VerticalAlignment="Top" Width="75" Grid.Column="1" ToolTip="Reset" Name="btReset" Click="btReset_Click"/>
+        <RadioButton Content="Bod" Grid.Column="1" HorizontalAlignment="Left" Margin="48,127,0,0" VerticalAlignment="Top" Name="rbBod" Checked="rbBod_Checked" Unchecked="rbBod_Unchecked"/>
+        <RadioButton Content="Přímka" Grid.Column="1" HorizontalAlignment="Left" Margin="48,147,0,0" VerticalAlignment="Top" Name="rbPrimka" Checked="rbPrimka_Checked" Unchecked="rbPrimka_Unchecked"/>
+        <RadioButton Content="Kružnice" Grid.Column="1" HorizontalAlignment="Left" Margin="48,167,0,0" VerticalAlignment="Top" Name="rbKruznice" Checked="rbKruznice_Checked" Unchecked="rbKruznice_Unchecked"/>
+        <RadioButton Content="Elipsa" Grid.Column="1" HorizontalAlignment="Left" Margin="48,187,0,0" VerticalAlignment="Top" Name="rbElipsa" Checked="rbElipsa_Checked" Unchecked="rbElipsa_Unchecked"/>
+        <RadioButton Content="Hyperbola" Grid.Column="1" HorizontalAlignment="Left" Margin="48,207,0,0" VerticalAlignment="Top" Name="rbHyperbola" Checked="rbHyperbola_Checked" Unchecked="rbHyperbola_Unchecked"/>
+        <RadioButton Content="Parabola" Grid.Column="1" HorizontalAlignment="Left" Margin="48,227,0,0" VerticalAlignment="Top" Name="rbParabola" Checked="rbParabola_Checked" Unchecked="rbParabola_Unchecked"/>
+        <Button Content="Volný výběr" Grid.Column="1" HorizontalAlignment="Left" Margin="47,247,0,0" VerticalAlignment="Top" Width="75" Name="btResetTvar" Click="btResetTvar_Click"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="230,118,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="49" Name="tbX"/>
+        <Label Content="x: " HorizontalAlignment="Left" Margin="207,118,0,0" VerticalAlignment="Top" Grid.Column="1" Name="lbX" Height="26" Width="23"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="230,146,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="49" Name="tbY"/>
+        <Label Content="y: " HorizontalAlignment="Left" Margin="207,146,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Name="lbY" Height="26" Width="23"/>
+        <Button Content="Vložit" Grid.Column="1" HorizontalAlignment="Left" Margin="217,174,0,0" VerticalAlignment="Top" Width="75" Name="btVloz" Click="btVloz_Click" Height="23"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="230,174,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="49" x:Name="tbC"/>
+        <Label Content="c: " HorizontalAlignment="Left" Margin="207,174,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.5,0.5" x:Name="lbC" Height="26" Width="23"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="230,202,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="49" x:Name="tbB" Visibility="Hidden"/>
+        <Label Content="b: " HorizontalAlignment="Left" Margin="207,202,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.5,0.5" x:Name="lbB" Height="26" Width="23" Visibility="Hidden"/>
+        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="375" Margin="48,85,0,0" Name="cbVzorec" Grid.Column="1" AllowDrop="True" SelectionChanged="cbVzorec_SelectionChanged"/>
+        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="219,371,0,0" x:Name="cbBarva" Grid.Column="1" AllowDrop="True" Height="22">
+            <ComboBoxItem Content="Červená" IsSelected="True">
+                <ComboBoxItem.Background>
+                    <SolidColorBrush Color="Red"/>
+                </ComboBoxItem.Background>
+            </ComboBoxItem>
+            <ComboBoxItem Content="Modrá">
+                <ComboBoxItem.Background>
+                    <SolidColorBrush Color="DodgerBlue"/>
+                </ComboBoxItem.Background>
+            </ComboBoxItem>
+            <ComboBoxItem Content="Zelená">
+                <ComboBoxItem.Background>
+                    <SolidColorBrush Color="LimeGreen"/>
+                </ComboBoxItem.Background>
+            </ComboBoxItem>
+            <ComboBoxItem Content="Fialová">
+                <ComboBoxItem.Background>
+                    <SolidColorBrush Color="MediumVioletRed"/>
+                </ComboBoxItem.Background>
+            </ComboBoxItem>
+            <ComboBoxItem Content="Hnědá">
+                <ComboBoxItem.Background>
+                    <SolidColorBrush Color="Sienna"/>
+                </ComboBoxItem.Background>
+            </ComboBoxItem>
+        </ComboBox>
+        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="163" Margin="219,406,0,0" x:Name="cbTloustka" Grid.Column="1" AllowDrop="True" Height="22">
+            <ComboBoxItem Height="22" IsSelected="True">
+                <Line X1="0" Y1="10" X2="163" Y2="10" StrokeThickness="2" Stroke="Black"/>
+            </ComboBoxItem>
+            <ComboBoxItem Height="22">
+                <Line X1="0" Y1="10" X2="163" Y2="10" StrokeThickness="4" Stroke="Black"/>
+            </ComboBoxItem>
+            <ComboBoxItem Height="22">
+                <Line X1="0" Y1="10" X2="163" Y2="10" StrokeThickness="6" Stroke="Black"/>
+            </ComboBoxItem>
+        </ComboBox>
+        <Label Content="Barva čáry: " HorizontalAlignment="Left" Margin="149,371,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.5,0.5" x:Name="lbBarva"/>
+        <Label Content="Tloušťka čáry: " HorizontalAlignment="Left" Margin="133,402,0,0" VerticalAlignment="Top" Grid.Column="1" RenderTransformOrigin="0.5,0.5" x:Name="lbTloustka" Height="26"/>
+        <CheckBox Content="Uvolnit prvek" Grid.Column="1" HorizontalAlignment="Left" Margin="219,351,0,0" VerticalAlignment="Top" Name="cbPohyb" Visibility="Hidden"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="230,230,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="49" x:Name="tbP" Visibility="Hidden"/>
+        <Label Content="P: " HorizontalAlignment="Left" Margin="207,230,0,0" VerticalAlignment="Top" Grid.Column="1" x:Name="lbP" Visibility="Hidden"/>
+        <Button Content="Vymazat objekt" Foreground="Red" HorizontalAlignment="Left" Margin="219,433,0,0" VerticalAlignment="Top" Width="163" Grid.Column="1" ToolTip="Vymazat" x:Name="btDelete" Click="btDelete_Click" Visibility="Hidden"/>
+    </Grid>
+</Window>
